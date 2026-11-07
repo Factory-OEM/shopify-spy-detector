@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Factory-OEM | Free Shopify Theme & App Detector - Competitor Spy Tool</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #f3f4f6;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        h1 {
+            font-size: 24px;
+            color: #111827;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+        p.subtitle {
+            color: #6b7280;
+            text-align: center;
+            margin-bottom: 24px;
+            font-size: 14px;
+        }
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+        }
+        input:focus {
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+        button {
+            background-color: #4f46e5;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        button:hover {
+            background-color: #4338ca;
+        }
+        .result-box {
+            display: none;
+            margin-top: 25px;
+            border-top: 1px solid #e5e7eb;
+            padding-top: 20px;
+        }
+        .result-item {
+            margin-bottom: 16px;
+        }
+        .label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .value {
+            font-size: 16px;
+            color: #1f2937;
+            font-weight: 500;
+            margin-top: 4px;
+            background: #f9fafb;
+            padding: 10px;
+            border-radius: 6px;
+        }
+        .tag {
+            display: inline-block;
+            background: #e0f2fe;
+            color: #0369a1;
+            font-size: 13px;
+            padding: 4px 10px;
+            border-radius: 9999px;
+            margin: 4px 4px 0 0;
+        }
+        /* Factory-OEM 品牌专属引流页脚 */
+        footer {
+            margin-top: auto;
+            background: linear-gradient(135deg, #111827, #1f2937);
+            color: white;
+            text-align: center;
+            padding: 25px 20px;
+            font-size: 14px;
+            line-height: 1.6;
+            border-top: 4px solid #4f46e5;
+        }
+        footer a {
+            color: #38bdf8;
+            font-weight: bold;
+            text-decoration: none;
+            margin: 0 5px;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+        .footer-brand {
+            font-weight: bold;
+            color: #fbbf24;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Shopify Store Spy Detector</h1>
+        <p class="subtitle">Instantly analyze competitor themes and active apps to upgrade your store strategy</p>
+        
+        <div class="input-group">
+            <input type="text" id="storeUrl" placeholder="Enter competitor store URL (e.g., gymshark.com)">
+            <button onclick="detectStore()">Analyze</button>
+        </div>
+
+        <div id="loading" style="display:none; text-align:center; color:#6b7280;">Scanning competitor website assets...</div>
+
+        <div class="result-box" id="resultBox">
+            <div class="result-item">
+                <div class="label">E-Commerce Platform</div>
+                <div class="value" id="platform">Shopify Store</div>
+            </div>
+            <div class="result-item">
+                <div class="label">Current Active Theme</div>
+                <div class="value" id="theme">Detecting...</div>
+            </div>
+            <div class="result-item">
+                <div class="label">Detected Shopify Apps</div>
+                <div id="apps" style="margin-top:6px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 锁定您的供应链与自媒体引流渠道 -->
+    <footer>
+        💡 Spied your competitors? Now secure your supply chain! <br>
+        Brought to you by <span class="footer-brand">Factory-OEM</span> — Your Premium Manufacturing & Sourcing Partner. <br>
+        👉 <a href="https://factory-oem.com" target="_blank">Visit Factory-OEM.com</a> | 
+        🐦 <a href="https://x.com" target="_blank">Follow us on X (Twitter)</a>
+    </footer>
+
+    <script>
+        async function detectStore() {
+            let url = document.getElementById('storeUrl').value.trim();
+            if (!url) {
+                alert('Please enter a valid URL');
+                return;
+            }
+
+            // 自动规范化输入网址
+            if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                url = 'https://' + url;
+            }
+
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('resultBox').style.display = 'none';
+
+            try {
+                // 使用高效的前端公共 CORS 代理抓取目标页面源码
+                const response = await fetch(`https://allorigins.win{encodeURIComponent(url)}`);
+                const data = await response.json();
+                const html = data.contents;
+
+                document.getElementById('loading').style.display = 'none';
+
+                if (!html || (!html.includes('://shopify.com') && !html.includes('shopify'))) {
+                    alert('Target website is not verified as a Shopify store, or it is strictly protected against scrapers.');
+                    return;
+                }
+
+                // 1. 提取 Shopify 主题库名称
+                let themeName = "Custom / Protected Premium Theme";
+                const themeMatch = html.match(/"theme_name":"([^"]+)"/);
+                if (themeMatch && themeMatch[1]) {
+                    themeName = themeMatch[1];
+                }
+
+                // 2. 扫描并匹配欧美独立站高频付费 App 核心特征码
+                const appFeatures = {
+                    "Klaviyo (Email Marketing)": ["klaviyo.com", "://klaviyo.com"],
+                    "Loox (Product Reviews)": ["loox.io", "loox-rating"],
+                    "Judge.me (Product Reviews)": ["judge.me", "jdgm-widget"],
+                    "Gorgias (Customer Support)": ["gorgias.io", "gorgias-chat"],
+                    "Ali Reviews": ["alireviews", "alireviews-app"],
+                    "Vital (All-in-One Optimization)": ["vitals.co", "vitals-root"],
+                    "Omnisend (Marketing Automation)": ["omnisend.com", "omnisend-snippets"],
+                    "PageFly (Advanced Page Builder)": ["pagefly.io", "pf-element"],
+                    "Shogun (Landing Page Builder)": ["shogun.io", "shogun-image"],
+                    "Recharge (Subscriptions)": ["rechargeapps.com", "rc_dependencies"],
+                    "Lucky Orange (Heatmaps & Session Recording)": ["luckyorange.com", "://luckyorange.com"]
+                };
+
+                const detectedApps = [];
+                for (const [appName, keywords] of Object.entries(appFeatures)) {
+                    if (keywords.some(keyword => html.includes(keyword))) {
+                        detectedApps.push(appName);
+                    }
+                }
+
+                // 3. 将扫描分析的数据渲染至 UI 界面
+                document.getElementById('theme').innerText = themeName;
+                const appsContainer = document.getElementById('apps');
+                appsContainer.innerHTML = '';
+
+                if (detectedApps.length > 0) {
+                    detectedApps.forEach(app => {
+                        const span = document.createElement('span');
+                        span.className = 'tag';
+                        span.innerText = app;
+                        appsContainer.appendChild(span);
+                    });
+                } else {
+                    appsContainer.innerHTML = '<div style="color:#9ca3af;font-size:14px;">No common commercial apps detected on this storefront.</div>';
+                }
+
+                document.getElementById('resultBox').style.display = 'block';
+
+            } catch (error) {
+                document.getElementById('loading').style.display = 'none';
+                alert('Failed to connect to the target store. Please verify the URL or try another Shopify store.');
+            }
+        }
+    </script>
+</body>
+</html>
